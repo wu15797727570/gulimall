@@ -10,6 +10,7 @@ public class PmsSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         //super.configure(http);
         http.authorizeRequests().antMatchers("/**").permitAll();
+
         //csrf功能为了防止post方法重复提交，会阻止post的请求方法
         http.csrf().disable();
     }
