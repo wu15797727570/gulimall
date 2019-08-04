@@ -7,6 +7,8 @@ import java.util.Map;
 import com.atguigu.gulimall.commons.bean.PageVo;
 import com.atguigu.gulimall.commons.bean.QueryCondition;
 import com.atguigu.gulimall.commons.bean.Resp;
+import com.atguigu.gulimall.pms.entity.AttrEntity;
+import com.atguigu.gulimall.pms.vo.AttrGroupWithAttrsVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,25 @@ import com.atguigu.gulimall.pms.service.AttrGroupService;
 public class AttrGroupController {
     @Autowired
     private AttrGroupService attrGroupService;
+
+    @GetMapping("/info/withattrs/{attrGroupId}")
+    @ApiOperation("查询某个分组以及分组下面的所有属性信息")
+    public Resp<AttrGroupWithAttrsVo> getAttrByAttrGroupId(@PathVariable("attrGroupId") Long attrGroupId){
+
+        //查询出属性分组信息
+        AttrGroupWithAttrsVo vo = attrGroupService.getAttrByAttrGroupId(attrGroupId);
+        return Resp.ok(vo);
+    }
+
+
+    @GetMapping("/list/category/{groupId}")
+    @ApiOperation("查询某个分组下对应的所有属性")
+    public Resp<PageVo> getAttrList(QueryCondition queryCondition ,
+                                    @PathVariable(value = "groupId") Long groupId){
+
+        PageVo page = attrGroupService.getAttrList(queryCondition , groupId);
+        return Resp.ok(page);
+    }
 
     /**
      * 列表

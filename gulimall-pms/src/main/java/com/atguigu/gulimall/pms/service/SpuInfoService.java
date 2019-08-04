@@ -16,5 +16,13 @@ import com.atguigu.gulimall.commons.bean.QueryCondition;
 public interface SpuInfoService extends IService<SpuInfoEntity> {
 
     PageVo queryPage(QueryCondition params);
+
+    /**
+     * 按照spuid,spuname,分类id检索商品
+     * @param queryCondition
+     * @param catId
+     * @return
+     */
+    PageVo queryPageSearch(QueryCondition queryCondition, Long catId);
 }
 

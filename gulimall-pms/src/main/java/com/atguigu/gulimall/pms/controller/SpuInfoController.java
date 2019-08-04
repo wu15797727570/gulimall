@@ -1,6 +1,7 @@
 package com.atguigu.gulimall.pms.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -33,6 +34,15 @@ public class SpuInfoController {
     @Autowired
     private SpuInfoService spuInfoService;
 
+
+    @GetMapping("/simple/search")
+    @ApiOperation("按照spuid,spuname,分类id检索商品")
+    public Resp<PageVo> queryPageSearch(QueryCondition queryCondition ,
+                                        @RequestParam(value = "catId" , defaultValue = "0") Long catId){
+
+        PageVo page = spuInfoService.queryPageSearch(queryCondition , catId);
+        return Resp.ok(page);
+    }
     /**
      * 列表
      */

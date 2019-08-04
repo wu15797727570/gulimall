@@ -7,6 +7,10 @@ import java.util.Map;
 import com.atguigu.gulimall.commons.bean.PageVo;
 import com.atguigu.gulimall.commons.bean.QueryCondition;
 import com.atguigu.gulimall.commons.bean.Resp;
+import com.atguigu.gulimall.pms.entity.AttrEntity;
+import com.atguigu.gulimall.pms.service.AttrService;
+import com.atguigu.gulimall.pms.vo.AttrAndRelationDeleteVo;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +36,26 @@ import com.atguigu.gulimall.pms.service.AttrAttrgroupRelationService;
 public class AttrAttrgroupRelationController {
     @Autowired
     private AttrAttrgroupRelationService attrAttrgroupRelationService;
+
+    @Autowired
+    private AttrService attrService;
+
+    @PostMapping("/delete/attr")
+    @ApiOperation("删除关联关系")
+    public Resp<Object> deleteAttrAndRelation(@RequestBody AttrAndRelationDeleteVo[] vos){
+
+        if(vos != null && vos.length > 0){
+            for (AttrAndRelationDeleteVo vo : vos) {
+                attrAttrgroupRelationService.remove(new QueryWrapper<AttrAttrgroupRelationEntity>()
+                        .eq("attr_group_id" , vo.getAttrGroupId())
+                        .eq("attr_id" , vo.getAttrId())
+                        );
+                attrService.remove(new QueryWrapper<AttrEntity>().eq("attr_id" , vo.getAttrId()));
+            }
+        }
+        return Resp.ok("删除成功");
+    }
+
 
     /**
      * 列表
